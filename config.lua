@@ -78,42 +78,15 @@ vim.opt.number = false
 
 vim.opt.wrap = true
 
+-- Disable autoident while paste code
+
+vim.cmd('set nopaste')
+
 -- Set spell lang and turn it off
 
 vim.cmd('set spelllang = "en, ru"')
 lvim.builtin.spell = false
 vim.opt.spell = false
-
--- Turn off spell for markdown
-
-lvim.autocommands.custom_groups = {
-   { "FileType", "markdown", "setlocal spell=off" },
-}
-
--- Tree-sitter configuration
-
-require'nvim-treesitter.configs'.setup {
-
-  -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
-
-  highlight = {
-    enable = true,
-    disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-    additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
-  },
-  ensure_installed = {'org'}, -- Or run :TSUpdate org
-}
-
--- Setup orgmode
-
-require('orgmode').setup({
-  org_agenda_files = {'~/Notebook/*'},
-  org_default_notes_file = '~/Notebook/Notebook.org',
-})
-
--- Ts grammar for orgmode
-
-require('orgmode').setup_ts_grammar()
 
 -- Colors for raibow parents
 
@@ -150,9 +123,16 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 
+lvim.autocommands.custom_groups = {
+   { "FileType", "json", ":IndentLinesToggle" },
+}
 -- Enable treesitter
 
 lvim.builtin.treesitter.highlight.enabled = true
+
+-- Disable highlight keybinding
+
+vim.cmd("map <esc> :noh <CR>")
 
 -- Git keybindings
 
@@ -162,7 +142,30 @@ vim.cmd("nmap <Space>gd :Git diff<CR>")
 
 -- Ease find and replace keybinding
 
-vim.cmd("nnoremap sa viw:lua require'spectre'.open_file_search()<c>")
+vim.cmd("nnoremap sa viw:lua require'spectre'.open_file_search()<CR>")
+
+-- Add ending for lines in visual mode keybinding like ; in end of line
+
+vim.cmd("vmap A :normal A")
+
+-- Resize window keybindings
+
+vim.cmd('nmap swl :vertical resize +10<CR>')
+vim.cmd('nmap swh :vertical resize -10<CR>')
+
+vim.cmd('nmap swk :resize +10<CR>')
+vim.cmd('nmap swj :resize -10<CR>')
+
+-- Remove and paste without copy to buffer
+
+vim.cmd('nnoremap d "_d')
+vim.cmd('nnoremap <Space>d d')
+
+vim.cmd('vnoremap p "_dP')
+
+-- Insert current date keybinding
+
+vim.cmd('nmap sD i<C-R>=strftime("%Y-%m-%d %a %H:%M")<CR><Esc>')
 
 -- Run python file
 
@@ -177,6 +180,11 @@ vim.cmd('nmap src <Cmd>execute v:count . "ToggleTerm"<CR> cargo check<CR>')
 vim.cmd("nmap sd :RustHoverActions<CR>")
 vim.cmd("nmap sR :RustRunnables<CR>")
 vim.cmd("nmap sc :RustOpenCargo<CR>")
+
+-- Markdown preview keybindings
+
+vim.cmd('nmap smg :Glow<CR>')
+vim.cmd('nmap smp :MarkdownPreview<CR>')
 
 -- Navigate buffers
 
@@ -226,7 +234,7 @@ vim.cmd("map so za")
 
 -- Slect all
 
-vim.cmd("nmap <C-a> gg<S-v>G")
+vim.cmd("vmap <C-a> vgg<S-v>G")
 
 -- Delete word backwards
 
@@ -355,9 +363,6 @@ lvim.plugins = {
           hover_actions = {
             auto_focus = false
           },
-          inlay_hints = {
-            show_variable_name = false,
-          },
         },
         server = {
           cmd = { vim.fn.stdpath "data" .. "/lsp_servers/rust-tools/rust-analyzer" },
@@ -372,12 +377,20 @@ lvim.plugins = {
   -- Markdown preview
 
   {
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    ft = "markdown",
-    config = function()
-      vim.g.mkdp_auto_start = 1
-    end,
+    "npxbr/glow.nvim",
+    ft = {"markdown"}
+    -- run = "yay -S glow"
+  },
+
+  {
+    'iamcco/markdown-preview.nvim',
+    -- after install use :call mkdp#util#install() or uncomment config lines
+    -- run = "cd app && npm install",
+    -- ft = "markdown",
+    -- config = function()
+    --   vim.g.mkdp_auto_start = 1
+    -- end,
+
   },
 
   -- Switch language in normal mode for russian
@@ -515,12 +528,6 @@ lvim.plugins = {
 
   {
     "posva/vim-vue"
-  },
-
-  -- Org mode for nvim
-
-  {
-    "nvim-orgmode/orgmode"
   },
 
   -- Git changes check
