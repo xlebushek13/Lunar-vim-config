@@ -125,6 +125,7 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 
 lvim.autocommands.custom_groups = {
    { "FileType", "json", ":IndentLinesToggle" },
+   { "BufRead", "Cargo.toml", ":CratesToggle"}
 }
 -- Enable treesitter
 
@@ -133,6 +134,15 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- Disable highlight keybinding
 
 vim.cmd("map <esc> :noh <CR>")
+
+-- Surround keybindings
+
+vim.cmd('vmap s" c""<ESC>P')
+vim.cmd("vmap s' c''<ESC>P")
+vim.cmd("vmap s( c()<ESC>P")
+vim.cmd("vmap s{ c{}<ESC>P")
+vim.cmd("vmap s[ c[]<ESC>P")
+vim.cmd("vmap s< c<><ESC>P")
 
 -- Git keybindings
 
@@ -174,6 +184,7 @@ vim.cmd("nmap sp :!python3 %<CR>")
 -- Rust keybindings
 
 vim.cmd('nmap srr <Cmd>execute v:count . "ToggleTerm"<CR> cargo run<CR>')
+vim.cmd('nmap sru :CratesUp<CR>')
 vim.cmd('nmap srb <Cmd>execute v:count . "ToggleTerm"<CR> cargo build<CR>')
 vim.cmd('nmap srt <Cmd>execute v:count . "ToggleTerm"<CR> cargo test<CR>')
 vim.cmd('nmap src <Cmd>execute v:count . "ToggleTerm"<CR> cargo check<CR>')
@@ -544,6 +555,12 @@ lvim.plugins = {
     config = function()
       require("spectre").setup()
     end,
+  },
+
+  -- Rust crates completion
+
+  {
+    "mhinz/vim-crates"
   },
 
 }
