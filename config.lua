@@ -10,7 +10,7 @@ lvim.log.level = "warn"
 -- Disable open file in common os programm by pressing 's' - confilcts with keybindings
 
 lvim.builtin.nvimtree.setup.view.mappings.list = {
-  { key = "s",                            action = "" },
+  { key = "s", action = "" },
 }
 
 -- Auto format
@@ -123,10 +123,23 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 
-lvim.autocommands.custom_groups = {
-   { "FileType", "json", ":IndentLinesToggle" },
-   { "BufRead", "Cargo.toml", ":CratesToggle"}
+lvim.autocommands = {
+  {
+    "BufWinEnter",
+    {
+      pattern = { "*.json" },
+      command = ":IndentLinesToggle",
+    }
+  },
+  {
+    "BufWinEnter",
+    {
+      pattern = { "Cargo.toml" },
+      command = ":CratesToggle",
+    }
+  },
 }
+
 -- Enable treesitter
 
 lvim.builtin.treesitter.highlight.enabled = true
