@@ -162,6 +162,7 @@ vim.cmd("vmap s< c<><ESC>P")
 lvim.builtin.which_key.mappings["ga"] = { '<Cmd>execute v:count . "ToggleTerm"<CR> git add .<CR>', "Git add an toggle term" }
 lvim.builtin.which_key.mappings["gd"] = { "Git diff" }
 vim.cmd("nmap <Space>gd :Git diff<CR>")
+vim.cmd("nmap <Space>gg :LazyGit<CR>")
 
 -- Ease find and replace keybinding
 
@@ -575,5 +576,9 @@ lvim.plugins = {
   {
     "mhinz/vim-crates"
   },
+
+  {
+    'kdheepak/lazygit.nvim',
+  }
 
 }
