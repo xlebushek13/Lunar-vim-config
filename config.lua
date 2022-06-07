@@ -1,4 +1,4 @@
--- Config for lunarvim created by xlebushek
+-- Config for lunarvim created by xlebushek kitsune@kitsune.in.ua
 -- Transparent window
 
 lvim.transparent_window = false
@@ -70,9 +70,14 @@ vim.opt.cursorline = false
 
 vim.opt.termguicolors = true
 
--- Disable numbers
+-- Enable numbers
 
-vim.opt.number = false
+vim.opt.number = true
+vim.opt.numberwidth = 1
+
+-- Alway show tabline
+
+vim.opt.showtabline = 2
 
 -- Enable word wrap
 
@@ -182,8 +187,7 @@ vim.cmd('nmap swj :resize -10<CR>')
 
 -- Remove and paste without copy to buffer
 
-vim.cmd('nnoremap d "_d')
-vim.cmd('nnoremap <Space>d d')
+lvim.builtin.which_key.mappings["d"] = { '"_d', "Delete without copy" }
 
 vim.cmd('vnoremap p "_dP')
 
@@ -206,10 +210,18 @@ vim.cmd("nmap sd :RustHoverActions<CR>")
 vim.cmd("nmap sR :RustRunnables<CR>")
 vim.cmd("nmap sc :RustOpenCargo<CR>")
 
+-- Search and replace keybinding
+
+vim.cmd("nmap sF :%s/")
+
 -- Markdown preview keybindings
 
 vim.cmd('nmap smg :Glow<CR>')
 vim.cmd('nmap smp :MarkdownPreview<CR>')
+
+-- Scracth keybinding
+
+lvim.builtin.which_key.mappings["o"] = { ":Scratch<CR>", "Open Scratch" }
 
 -- Navigate buffers
 
@@ -219,9 +231,15 @@ vim.cmd('nmap smp :MarkdownPreview<CR>')
 ["<C-s>"] = ":w<cr>"
  }
 
+
 -- Buffers edit
 
+vim.cmd('nmap to :tabo<CR>')
 vim.cmd("nmap te :tabedit ")
+
+-- Show tofo list
+
+vim.cmd("nmap tt :TodoLocList<CR>")
 
 -- Split windows
 
@@ -257,7 +275,7 @@ vim.cmd("let g:indentLine_char = '│'")
 vim.cmd("map sf zfit")
 vim.cmd("map so za")
 
--- Slect all
+-- Select all
 
 vim.cmd("vmap <C-a> vgg<S-v>G")
 
@@ -519,7 +537,7 @@ lvim.plugins = {
     cmd = "SymbolsOutline",
   },
 
-  -- Hilight todo like TODO:
+  -- Hilight todo like  TODO:
 
   {
     "folke/todo-comments.nvim",
@@ -578,7 +596,22 @@ lvim.plugins = {
   },
 
   {
-    'kdheepak/lazygit.nvim',
+    'kdheepak/lazygit.nvim'
+  },
+
+  -- Open scratch file
+
+  {
+    "mtth/scratch.vim"
+  },
+
+  -- Stay cursor on last place in the file plugin
+
+  {
+    "ethanholz/nvim-lastplace",
+    config = function()
+      require'nvim-lastplace'.setup{}
+    end
   }
 
 }
