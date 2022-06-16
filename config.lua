@@ -13,6 +13,11 @@ lvim.builtin.nvimtree.setup.view.mappings.list = {
   { key = "s", action = "" },
 }
 
+
+-- vim.cmd("let g:custom_wiki2html = '/Users/xlebushek/.local/share/lunarvim/site/pack/packer/start/vimwiki/autoload/vimwiki/default.tpl'")
+-- vim.cmd("g:vimwiki_customwiki2html='/Users/xlebushek/.local/share/lunarvim/site/pack/packer/start/vimwiki/autoload/vimwiki/customwiki2html.sh'")
+
+vim.cmd("let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]")
 -- Auto format
 
 lvim.format_on_save = false
@@ -151,7 +156,11 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- Disable highlight keybinding
 
-vim.cmd("map <esc> :noh <CR>")
+vim.cmd("map <esc> :noh<CR>")
+
+-- Vim Wiki keybinding
+
+vim.cmd("map sww :VimwikiIndex<CR>")
 
 -- Surround keybindings
 
@@ -161,6 +170,20 @@ vim.cmd("vmap s( c()<ESC>P")
 vim.cmd("vmap s{ c{}<ESC>P")
 vim.cmd("vmap s[ c[]<ESC>P")
 vim.cmd("vmap s< c<><ESC>P")
+
+vim.cmd('nmap s" ^v$<left>c""<ESC>P')
+vim.cmd("nmap s' ^v$<left>c''<ESC>P")
+vim.cmd('nmap s( ^v$<left>c()<ESC>P')
+vim.cmd('nmap s{ ^v$<left>c{}<ESC>P')
+vim.cmd('nmap s[ ^v$<left>c[]<ESC>P')
+vim.cmd('nmap s< ^v$<left>c<><ESC>P')
+
+-- Delete inside parents etc
+
+vim.cmd("nmap dp ci)")
+vim.cmd("nmap db ci)")
+vim.cmd('nmap dq ci"')
+vim.cmd("nmap dQ ci'")
 
 -- Git keybindings
 
@@ -197,7 +220,7 @@ vim.cmd('nmap sD i<C-R>=strftime("%Y-%m-%d %a %H:%M")<CR><Esc>')
 
 -- Run python file
 
-vim.cmd("nmap sp :!python3 %<CR>")
+vim.cmd("nmap spP :!python3 %<CR>")
 
 -- Rust keybindings
 
@@ -236,10 +259,11 @@ lvim.builtin.which_key.mappings["o"] = { ":Scratch<CR>", "Open Scratch" }
 
 vim.cmd('nmap to :tabo<CR>')
 vim.cmd("nmap te :tabedit ")
+vim.cmd("nmap st :BufferLinePick<CR>")
 
--- Show tofo list
+-- Show todo list
 
-vim.cmd("nmap tt :TodoLocList<CR>")
+vim.cmd("nmap td :TodoLocList<CR>")
 
 -- Split windows
 
@@ -257,10 +281,6 @@ vim.cmd("map sh <C-w>h")
 vim.cmd("map sk <C-w>k")
 vim.cmd("map sj <C-w>j")
 vim.cmd("map sl <C-w>l")
-vim.cmd('vmap s" c""<Esc>P')
-vim.cmd('vmap s( c()<Esc>P')
-vim.cmd("vmap s' c''<Esc>P")
-vim.cmd('vmap s< c<><Esc>P')
 
 -- Sneak conf
 
@@ -285,7 +305,7 @@ vim.cmd('nnoremap dw vb"_di')
 
 -- Open projects
 
-vim.cmd("nmap st :lua require'telescope'.extensions.project.project{}<CR>")
+vim.cmd("nmap spp :lua require'telescope'.extensions.project.project{}<CR>")
 
 -- Settings for gitgutter
 
@@ -595,6 +615,8 @@ lvim.plugins = {
     "mhinz/vim-crates"
   },
 
+  -- Lazy git plugin
+
   {
     'kdheepak/lazygit.nvim'
   },
@@ -612,6 +634,14 @@ lvim.plugins = {
     config = function()
       require'nvim-lastplace'.setup{}
     end
+  },
+
+  {
+    "vimwiki/vimwiki"
+  },
+
+  {
+    "vim-pandoc/vim-pandoc"
   }
 
 }
