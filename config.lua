@@ -13,11 +13,12 @@ lvim.builtin.nvimtree.setup.view.mappings.list = {
   { key = "s", action = "" },
 }
 
+-- vim Wiki settings
 
+vim.cmd("let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]")
 -- vim.cmd("let g:custom_wiki2html = '/Users/xlebushek/.local/share/lunarvim/site/pack/packer/start/vimwiki/autoload/vimwiki/default.tpl'")
 -- vim.cmd("g:vimwiki_customwiki2html='/Users/xlebushek/.local/share/lunarvim/site/pack/packer/start/vimwiki/autoload/vimwiki/customwiki2html.sh'")
 
-vim.cmd("let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]")
 -- Auto format
 
 lvim.format_on_save = false
@@ -254,7 +255,6 @@ lvim.builtin.which_key.mappings["o"] = { ":Scratch<CR>", "Open Scratch" }
 ["<C-s>"] = ":w<cr>"
  }
 
-
 -- Buffers edit
 
 vim.cmd('nmap to :tabo<CR>')
@@ -322,7 +322,6 @@ formatters.setup {
   },
 }
 
-
 -- Linters
 
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -351,6 +350,7 @@ vim.cmd("let g:XkbSwitchLib = '/usr/local/bin/libInputSourceSwitcher.dylib'")
 vim.cmd("let g:XkbSwitchEnabled = 1")
 
 -- Override lsp servers
+
 require("lvim.lsp.manager").setup("pylsp")
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {"rust_analyzer"})
 
@@ -636,12 +636,10 @@ lvim.plugins = {
     end
   },
 
+  -- Vim wiki
+
   {
     "vimwiki/vimwiki"
   },
-
-  {
-    "vim-pandoc/vim-pandoc"
-  }
 
 }
